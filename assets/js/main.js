@@ -4,16 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // Gentle auto-scroll for horizontal image strips on products page
+  // Auto-scroll for horizontal image strips on products page
   const strips = document.querySelectorAll(".image-strip");
   strips.forEach((strip) => {
-    // Duplicate items once for seamless looping
-    const items = Array.from(strip.children);
-    items.forEach((item) => strip.appendChild(item.cloneNode(true)));
+    // Duplicate children once so the scroll can loop seamlessly
+    const originalItems = Array.from(strip.children);
+    originalItems.forEach((item) => strip.appendChild(item.cloneNode(true)));
 
     let paused = false;
-    let scrollPos = 0;
-    const step = 1; // px per frame
+    const step = 0.7; // pixels per frame
 
     strip.addEventListener("mouseenter", () => {
       paused = true;
@@ -23,18 +22,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const animate = () => {
-      if (!paused && strip.scrollWidth > strip.clientWidth) {
-        scrollPos = strip.scrollLeft + step;
-        if (scrollPos + strip.clientWidth >= strip.scrollWidth - 2) {
-          strip.scrollLeft = 0;
-        } else {
-          strip.scrollLeft = scrollPos;
+      if (!paused) {
+        const maxScroll = strip.scrollWidth / 2; // width of original content
+        let next = strip.scrollLeft + step;
+
+        if (next >= maxScroll) {
+          next -= maxScroll;
         }
+
+        strip.scrollLeft = next;
       }
+
       requestAnimationFrame(animate);
     };
 
     requestAnimationFrame(animate);
   });
 });
-
