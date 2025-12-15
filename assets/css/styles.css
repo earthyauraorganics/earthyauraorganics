@@ -385,26 +385,6 @@ p {
   background: linear-gradient(120deg, rgba(31,91,67,0.06), rgba(237,228,210,0.8));
 }
 
-.marquee-heading {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.marquee-heading h1 {
-  display: inline-block;
-  padding-right: 100%;
-  animation: marquee-heading 18s linear infinite;
-}
-
-@keyframes marquee-heading {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
 .image-strip-wrapper {
   padding: 10px 0 24px;
 }
@@ -414,7 +394,6 @@ p {
   gap: 12px;
   overflow: hidden;
   padding: 10px 0 6px;
-  scroll-snap-type: x mandatory;
 }
 
 .image-strip-item {

@@ -9,10 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
   strips.forEach((strip) => {
     // Duplicate children once so the scroll can loop seamlessly
     const originalItems = Array.from(strip.children);
+    if (!originalItems.length) return;
     originalItems.forEach((item) => strip.appendChild(item.cloneNode(true)));
 
     let paused = false;
-    const step = 0.7; // pixels per frame
+    const step = 1.5; // pixels per frame
 
     strip.addEventListener("mouseenter", () => {
       paused = true;
@@ -23,14 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const animate = () => {
       if (!paused) {
-        const maxScroll = strip.scrollWidth / 2; // width of original content
-        let next = strip.scrollLeft + step;
-
-        if (next >= maxScroll) {
-          next -= maxScroll;
+        const maxScroll = strip.scrollWidth - strip.clientWidth;
+        if (maxScroll > 0) {
+          let next = strip.scrollLeft + step;
+          if (next >= maxScroll) next = 0;
+          strip.scrollLeft = next;
         }
-
-        strip.scrollLeft = next;
       }
 
       requestAnimationFrame(animate);
